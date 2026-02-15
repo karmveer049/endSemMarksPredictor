@@ -33,19 +33,31 @@
     <h2>Input Parameters</h2>
 
     <label>Attendance</label>
-    <input id="attendance" type="number">
+    <input id="attendance" type="number" placeholder="Enter in % (0–100)"
+  min="0"
+  max="100"
+  step="0.1">
 
     <label>Mid-Sem Marks</label>
-    <input id="midsem" type="number">
+    <input id="midsem" type="number" placeholder="Enter in % (0–100)"
+  min="0"
+  max="100"
+  step="0.1">
 
     <label>IQ Level</label>
-    <input id="iq" type="number">
+    <input id="iq" type="number" >
 
     <label>Self Study Hours</label>
-    <input id="study" type="number">
+    <input id="study" type="number" placeholder=" 0 - 24"
+  min="0"
+  max="24"
+  step="0.1">
 
     <label>Attentiveness</label>
-    <input id="attentive" type="number">
+    <input id="attentive" type="number" placeholder="Enter in % (0–100)"
+  min="0"
+  max="100"
+  step="0.1">
 
     <button onclick="predict()">Run Prediction</button>
 
