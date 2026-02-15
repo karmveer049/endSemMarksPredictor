@@ -1,26 +1,29 @@
 let chart;
 
-function predict(){
+async function predict(){
 
-  const attendance = parseFloat(document.getElementById("attendance").value);
-  const midsem = parseFloat(document.getElementById("midsem").value);
-  const iq = parseFloat(document.getElementById("iq").value);
-  const study = parseFloat(document.getElementById("study").value);
-  const attentive = parseFloat(document.getElementById("attentive").value);
+  const data = {
+    attendance: parseFloat(document.getElementById("attendance").value),
+    midsem: parseFloat(document.getElementById("midsem").value),
+    iq: parseFloat(document.getElementById("iq").value),
+    study: parseFloat(document.getElementById("study").value),
+    attentive: parseFloat(document.getElementById("attentive").value)
+  };
 
-  // demo model until backend connected
-  let score =
-    attendance*0.25 +
-    midsem*0.35 +
-    study*0.2 +
-    attentive*0.15 +
-    iq*0.05;
+  document.getElementById("result").innerText = "Predicting...";
+
+  const res = await fetch("https://endsem-api.onrender.com/predict",{
+    method:"POST",
+    headers:{ "Content-Type":"application/json" },
+    body: JSON.stringify(data)
+  });
+
+  const result = await res.json();
 
   document.getElementById("result").innerText =
-    score.toFixed(2) + "%";
-
-  updateChart([attendance, midsem, iq, study, attentive]);
+    result.prediction.toFixed(2) + "%";
 }
+
 
 function updateChart(values){
 
