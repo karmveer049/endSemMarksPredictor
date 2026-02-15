@@ -2,22 +2,38 @@ let chart;
 
 async function predict(){
 
-  const attendance = parseFloat(document.getElementById("attendance").value);
-  const midsem = parseFloat(document.getElementById("midsem").value);
-  const iq = parseFloat(document.getElementById("iq").value);
-  const study = parseFloat(document.getElementById("study").value);
-  const attentive = parseFloat(document.getElementById("attentive").value);
+  const resultBox = document.getElementById("result");
 
-  if(
-    isNaN(attendance) ||
-    isNaN(midsem) ||
-    isNaN(iq) ||
-    isNaN(study) ||
-    isNaN(attentive)
-  ){
-    document.getElementById("result").innerText = "Enter all fields";
-    return;
+  const data = {
+    attendance: parseFloat(attendance.value),
+    midsem: parseFloat(midsem.value),
+    iq: parseFloat(iq.value),
+    study: parseFloat(study.value),
+    attentive: parseFloat(attentive.value)
+  };
+
+  resultBox.innerText = "Waking AI server... (first load takes ~40s)";
+
+  try{
+
+    const res = await fetch("https://endsem-api.onrender.com/predict",{
+      method:"POST",
+      headers:{ "Content-Type":"application/json" },
+      body: JSON.stringify(data)
+    });
+
+    const result = await res.json();
+
+    resultBox.innerText =
+      "Predicted End-Sem Marks: " + result.prediction.toFixed(2) + "%";
+
+  }catch(err){
+
+    resultBox.innerText =
+      "Server waking up... click again in 20s";
   }
+}
+
 
   document.getElementById("result").innerText = "Predicting...";
 
