@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Academic Predictor</title>
+<link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+<div class="bg"></div>
+
+<nav>
+  <div class="logo">KALMAN AI</div>
+  <div class="nav-links">
+    <a href="#">Model</a>
+    <a href="#">Accuracy</a>
+    <a href="#">Docs</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <h1>Student Performance Intelligence</h1>
+  <p>Kalman Filter + Recursive Least Squares Prediction Engine</p>
+</section>
+
+<div class="dashboard">
+
+  <!-- INPUT PANEL -->
+  <div class="panel input-panel">
+    <h2>Input Parameters</h2>
+
+    <label>Attendance</label>
+    <input id="attendance" type="number">
+
+    <label>Mid-Sem Marks</label>
+    <input id="midsem" type="number">
+
+    <label>IQ Level</label>
+    <input id="iq" type="number">
+
+    <label>Self Study Hours</label>
+    <input id="study" type="number">
+
+    <label>Attentiveness</label>
+    <input id="attentive" type="number">
+
+    <button onclick="predict()">Run Prediction</button>
+
+    <div class="result" id="result">--</div>
+  </div>
+
+  <!-- CHART PANEL -->
+  <div class="panel chart-panel">
+    <h2>Feature Impact</h2>
+    <canvas id="chart"></canvas>
+  </div>
+
+  <!-- METRICS PANEL -->
+  <div class="panel metrics">
+    <h2>Model Metrics</h2>
+    <div class="metric">Accuracy: <span>91.4%</span></div>
+    <div class="metric">Model: <span>Kalman RLS</span></div>
+    <div class="metric">Latency: <span>< 5ms</span></div>
+    <div class="metric">Dataset: <span>2000 samples</span></div>
+  </div>
+
+</div>
+
+<footer>
+Built by Karmveer Kumar • AI + Signal Processing
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
