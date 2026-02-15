@@ -5,14 +5,25 @@ async function predict(){
   const resultBox = document.getElementById("result");
 
   const data = {
-    attendance: parseFloat(attendance.value),
-    midsem: parseFloat(midsem.value),
-    iq: parseFloat(iq.value),
-    study: parseFloat(study.value),
-    attentive: parseFloat(attentive.value)
+    attendance: parseFloat(document.getElementById("attendance").value),
+    midsem: parseFloat(document.getElementById("midsem").value),
+    iq: parseFloat(document.getElementById("iq").value),
+    study: parseFloat(document.getElementById("study").value),
+    attentive: parseFloat(document.getElementById("attentive").value)
   };
 
-  resultBox.innerText = "Waking AI server... (first load takes ~40s)";
+  if(
+    isNaN(data.attendance) ||
+    isNaN(data.midsem) ||
+    isNaN(data.iq) ||
+    isNaN(data.study) ||
+    isNaN(data.attentive)
+  ){
+    resultBox.innerText = "Enter all values first";
+    return;
+  }
+
+  resultBox.innerText = "Waking AI server... (first load may take ~40s)";
 
   try{
 
@@ -33,6 +44,7 @@ async function predict(){
       "Server waking up... click again in 20s";
   }
 }
+
 
   resultBox.innerText = "Connecting to AI server...";
 
