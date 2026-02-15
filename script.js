@@ -4,38 +4,24 @@ async function predict(){
 
   const resultBox = document.getElementById("result");
 
-  const data = {
-    attendance: parseFloat(attendance.value),
-    midsem: parseFloat(midsem.value),
-    iq: parseFloat(iq.value),
-    study: parseFloat(study.value),
-    attentive: parseFloat(attentive.value)
-  };
+  const attendance = parseFloat(document.getElementById("attendance").value);
+  const midsem = parseFloat(document.getElementById("midsem").value);
+  const iq = parseFloat(document.getElementById("iq").value);
+  const study = parseFloat(document.getElementById("study").value);
+  const attentive = parseFloat(document.getElementById("attentive").value);
 
-  resultBox.innerText = "Waking AI server... (first load takes ~40s)";
-
-  try{
-
-    const res = await fetch("https://endsem-api.onrender.com/predict",{
-      method:"POST",
-      headers:{ "Content-Type":"application/json" },
-      body: JSON.stringify(data)
-    });
-
-    const result = await res.json();
-
-    resultBox.innerText =
-      "Predicted End-Sem Marks: " + result.prediction.toFixed(2) + "%";
-
-  }catch(err){
-
-    resultBox.innerText =
-      "Server waking up... click again in 20s";
+  if(
+    isNaN(attendance) ||
+    isNaN(midsem) ||
+    isNaN(iq) ||
+    isNaN(study) ||
+    isNaN(attentive)
+  ){
+    resultBox.innerText = "Please enter all values";
+    return;
   }
-}
 
-
-  document.getElementById("result").innerText = "Predicting...";
+  resultBox.innerText = "Connecting to AI server...";
 
   try{
 
@@ -53,16 +39,17 @@ async function predict(){
       })
     });
 
-    const result = await res.json();
+    const data = await res.json();
 
-    document.getElementById("result").innerText =
-      "Predicted End-Sem Marks: " + result.prediction.toFixed(2) + "%";
+    resultBox.innerText =
+      "Predicted End-Sem Marks: " + data.prediction.toFixed(2) + "%";
 
     updateChart([attendance, midsem, iq, study, attentive]);
 
   }catch(err){
-    document.getElementById("result").innerText =
-      "Server sleeping… wait 20s and try again";
+
+    resultBox.innerText =
+      "Server waking up... wait 30s and click again";
   }
 }
 
@@ -75,7 +62,7 @@ function updateChart(values){
     data:{
       labels:["Attendance","MidSem","IQ","Study","Attention"],
       datasets:[{
-        label:"Input Features",
+        label:"Input Values",
         data:values
       }]
     },
