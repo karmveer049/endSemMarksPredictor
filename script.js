@@ -1,27 +1,48 @@
+let chart;
+
+function initChart(){
+  const ctx = document.getElementById("chart").getContext("2d");
+
+  chart = new Chart(ctx,{
+    type:"bar",
+    data:{
+      labels:[
+        "Attendance",
+        "MidSem",
+        "IQ",
+        "Study",
+        "Attentiveness",
+        "EndSem"
+      ],
+      datasets:[{
+        label:"Student Metrics",
+        data:[0,0,0,0,0,0]
+      }]
+    },
+    options:{
+      responsive:true,
+      scales:{
+        y:{ beginAtZero:true, max:100 }
+      }
+    }
+  });
+}
+
+initChart();
+
 async function predict(){
 
   const resultBox = document.getElementById("result");
 
   const data = {
-    attendance: parseFloat(document.getElementById("attendance").value),
-    midsem: parseFloat(document.getElementById("midsem").value),
-    iq: parseFloat(document.getElementById("iq").value),
-    study: parseFloat(document.getElementById("study").value),
-    attentive: parseFloat(document.getElementById("attentive").value)
+    attendance: parseFloat(attendance.value),
+    midsem: parseFloat(midsem.value),
+    iq: parseFloat(iq.value),
+    study: parseFloat(study.value),
+    attentive: parseFloat(attentive.value)
   };
 
-  if(
-    isNaN(data.attendance) ||
-    isNaN(data.midsem) ||
-    isNaN(data.iq) ||
-    isNaN(data.study) ||
-    isNaN(data.attentive)
-  ){
-    resultBox.innerText = "Enter all values first";
-    return;
-  }
-
-  resultBox.innerText = "Waking AI server... (first load ~40s)";
+  resultBox.innerText = "Waking AI server... (~30s first time)";
 
   try{
 
@@ -31,14 +52,26 @@ async function predict(){
       body: JSON.stringify(data)
     });
 
-    const result = await res.json();
+    const out = await res.json();
+    const pred = out.prediction;
 
     resultBox.innerText =
-      "Predicted End-Sem Marks: " + result.prediction.toFixed(2) + "%";
+      "Predicted End-Sem Marks: " + pred.toFixed(2) + "%";
+
+    // 🔥 UPDATE CHART
+    chart.data.datasets[0].data = [
+      data.attendance,
+      data.midsem,
+      data.iq,
+      data.study,
+      data.attentive,
+      pred
+    ];
+
+    chart.update();
 
   }catch(err){
-
     resultBox.innerText =
-      "Server waking... click again in 20s";
+      "Server sleeping… click again in 20s";
   }
 }
