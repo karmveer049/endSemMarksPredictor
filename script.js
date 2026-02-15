@@ -17,7 +17,7 @@ async function predict(){
     isNaN(study) ||
     isNaN(attentive)
   ){
-    resultBox.innerText = "Please enter all values";
+    resultBox.innerText = "Enter all values";
     return;
   }
 
@@ -27,15 +27,13 @@ async function predict(){
 
     const res = await fetch("https://endsem-api.onrender.com/predict",{
       method:"POST",
-      headers:{
-        "Content-Type":"application/json"
-      },
+      headers:{ "Content-Type":"application/json" },
       body: JSON.stringify({
-        attendance: attendance,
-        midsem: midsem,
-        iq: iq,
-        study: study,
-        attentive: attentive
+        attendance,
+        midsem,
+        iq,
+        study,
+        attentive
       })
     });
 
@@ -47,9 +45,8 @@ async function predict(){
     updateChart([attendance, midsem, iq, study, attentive]);
 
   }catch(err){
-
     resultBox.innerText =
-      "Server waking up... wait 30s and click again";
+      "Server waking up… wait 30s and click again";
   }
 }
 
@@ -62,15 +59,11 @@ function updateChart(values){
     data:{
       labels:["Attendance","MidSem","IQ","Study","Attention"],
       datasets:[{
-        label:"Input Values",
         data:values
       }]
     },
     options:{
-      responsive:true,
-      plugins:{
-        legend:{display:false}
-      }
+      plugins:{legend:{display:false}}
     }
   });
 }
